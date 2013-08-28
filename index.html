@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<!-- vim:set ts=8 sts=4 sw=4 et ai: -->
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<meta name='description' content='The personal home page of Ishan Oshadi Jayawardene' />
+<meta name="google-site-verification" content="z1VFyoPywn7Z8cdkh_wkCYJU57c5viq1EKnCD4ATJuQ" />
+<meta name='viewport' content='width=device-width' />
+<title>Ishan Oshadi Jayawardene/SYSPRV</title>
+<!-- Ropa Sans, Cuprum -->
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel='shortcut icon' href='favicon.ico' />
+<style>
+body {
+  font-family: 'Droid Sans Mono', Verdana, Helvetica, sans-serif;
+}
+
+a img {
+  border: 0px;
+}
+</style>
+</head>
+<body>
+<p style='font-size: 120%;'>Ishan Oshadi Jayawardene</p>
+<div
+ id='rhs' style='width: 215px; float: right; padding: 0px 5px 0px 5px;'><a
+ href='.plan'><img
+ alt='Portrait of the system administrator at GOTO 2010'
+ width='210' height='210'
+ src='me-small.jpg' /></a>
+<br/>
+<canvas id='glider-canvas'
+ width='210' height='80'>If your browser supported the html5 canvas
+ element, you would likely see a Glider here.</canvas>
+</div>
+<p><a href='EFFA17D4.txt'>i@tangotangolima.com</a></p>
+<p id='about'>I'm a system administrator + developer
+working in Hamar, Norway. I like to read.</p>
+<br />
+<div id='icons'>
+<!-- The following icons (except for pinboard.in) are
+from IconDock&amp;s free set:
+http://icondock.com/free/vector-social-media-icons -->
+<p><a rel='me'
+ href='http://www.goodreads.com/user/show/357530-ishan-jayawardene'><img
+ src='9e65dd5aea2facbb94ab8a335a40cfaeacf261ae378f40a5e18e0d471a495230.png' width='32' height='32' alt='Goodreads' /></a>
+<a rel='me'
+ href='https://github.com/sysprv'><img
+ src='e643c59cc5767356d77d41cd9efdde2a98a29e640ae29c1a933dd98adad99380.png' width='32' height='32' alt='github' /></a>
+<a rel='me'
+ href='https://pinboard.in/u:sysprv'><img
+ src='008d3546d7405492370d407153a407b55df8adda3831b1dd903470e51fa00dc4.png' width='32' height='32'
+ alt='pinboard.in - bookmarks' /></a>
+<a rel='me'
+ href='http://www.linkedin.com/in/ishanoshadi'><img
+ src='2d6a030ab982ce934b762eeea9854bdf13acfded656ae6a2e311556bac4cc39c.png' width='32' height='32' alt='LinkedIn' /></a>
+<a rel='me'
+ href='https://plus.google.com/103061928773228269382/about'><img
+ src='f0407d93ca4b78a3992818b5b52192cb286a87aa0dd43c6ed166c575adc2683b.png' width='32' height='32' alt='Google+' /></a>
+<a rel='me'
+ href='https://graph.facebook.com/fast.cheap.good.heighliners'><img
+ src='d6e2ddfb8973bca09f3ad4217f6f91c9d571fe31e893fcaa6a8f025bda5cb642.png' width='32' height='32' alt='Facebook' /></a></p>
+</div>
+<!-- see .plan -->
+<p><a href='https://freedom-to-tinker.com/?s=aacs'>09-f9-11-02-9d-74-e3-5b-d8-41-56-c5-63-56-88-c0</a></p>
+<p><a href='hdcp.html'>HDCP master key</a></p>
+<p><a href='gosper.html'>The Gosper Gun</a></p>
+<p><a href='edc.html'>Everyday carry (EDC)</a></p>
+<br/>
+<br/>
+<div id='sysprv-definition' style="font-size: 67%; float: bottom;">
+<hr/>
+<blockquote>
+The <a
+href='http://h71000.www7.hp.com/doc/84final/ba554_90015/apas35.html'>SYSPRV</a>
+privilege lets a process access protected objects 
+by the system protection field and also read and modify the 
+owner (UIC), the UIC-based protection code, and the ACL of an 
+object. Even if an object is protected against system access, 
+a process with SYSPRV privilege can change the object's 
+protection to gain access to it. Any process with SYSPRV privilege 
+can add, modify, or delete entries in the system 
+user authorization file (SYSUAF.DAT).</blockquote>
+-- <a href='http://h71000.www7.hp.com/doc/os84_index.html'>HP OpenVMS Systems Documentation</a>
+</div>
+<div id='math' style='position: fixed; right: 3px; bottom: 3px; font-size: 50%;'>&pi;</div>
+<script type="text/javascript" src="js/paper-full.min.js"></script>
+<script type="text/paperscript" canvas="glider-canvas">
+var cellsz = 10, // width == height
+    spacing = 0,
+    cellcount_x,
+    cellcount_y,
+    universe_type,
+    cells,
+    curstate,
+    nextstate,
+    clrAlive = new RgbColor(255, 0, 0),
+    clrDead = new RgbColor(0, 0, 0);
+
+function create_structures() {
+    var i, j;
+    cellcount_x = Math.floor(view.size.width / (cellsz + spacing));
+    cellcount_y = Math.floor(view.size.height / (cellsz + spacing));
+    cells = new Array(cellcount_x);
+    curstate = new Array(cellcount_x);
+    nextstate = new Array(cellcount_x);
+    for (i = 0; i < cellcount_x; i++) {
+        cells[i] = new Array(cellcount_y);
+        curstate[i] = new Array(cellcount_y);
+        nextstate[i] = new Array(cellcount_y);
+        for (j = 0; j < cellcount_y; j++) {
+            cells[i][j] = new Path.Rectangle(
+                new Rectangle(i * (cellsz + spacing), j * (cellsz + spacing), cellsz, cellsz));
+            cells[i][j].fillColor = clrDead;
+            curstate[i][j] = 0;
+            nextstate[i][j] = 0;
+        }
+    }
+}
+
+// set an unbounded topology - no wrapping around.
+function unbounded(x, y) {
+    return [ x, y ];
+}
+
+// bounded topology - not possible to fall off the edge of the universe.
+function closed(x, y) {
+    var _x, _y;
+    if (x >= 0 && x < cellcount_x) {
+        _x =x;
+    } else if (x < 0) {
+        _x = x + cellcount_x;
+    } else if (x >= cellcount_x) {
+        _x = cellcount_x - x;
+    }
+
+    if (y >= 0 && y < cellcount_y) {
+        _y = y;
+    } else if (y < 0) {
+        _y = y + cellcount_y;
+    } else if (y >= cellcount_y) {
+        _y = cellcount_y - y;
+    }
+
+    // console.log(x + ", " + y + " -> " + _x + ", " + _y);
+    return [ _x, _y ];
+}
+
+// return "realized" coordinates of a cell's neighbours.
+// the choice of local variable f sets the type of the world.
+function neighbours(x, y) {
+    var f = universe_type;
+    return [ f(x - 1, y - 1), f(x, y - 1), f(x + 1, y - 1),
+             f(x - 1, y),                  f(x + 1, y),
+             f(x - 1, y + 1), f(x, y + 1), f(x + 1, y + 1) ];
+}
+
+
+// helper - to return "dead" in case of out-of-bounds coordinates.
+// if we're working with a closed world, x and y should always
+// be valid coordinates.
+function neighbour_value(x, y) {
+    if (x < 0 || x >= cellcount_x || y < 0 || y >= cellcount_y) {
+        return 0; // non-existent cell == dead
+    }
+
+    return curstate[x][y];
+}
+
+// decide if cell at (x, y) should die, be born, or stay unchanged.
+function decide(x, y) {
+    var n = neighbours(x, y),
+	nl = n.length,
+	living_neighbours = 0,
+	i = 0;
+
+    for ( ; i < nl; i++) {
+        living_neighbours += neighbour_value(n[i][0], n[i][1]);
+    }
+
+    if (living_neighbours < 2 || living_neighbours > 3) {
+        return 0; // die
+    }
+    if (curstate[x][y] === 0 && living_neighbours === 3) {
+        return 1; // neighbours reproduced.
+    }
+    return curstate[x][y];
+}
+
+function clocktick() {
+    var i, j, new_state, cell, tmp, touched = 0;
+
+    for (i = 0; i < cellcount_x; i++) {
+        for (j = 0; j < cellcount_y; j++) {
+            cell = cells[i][j];
+            // change fill colour only on cells that change.
+            if (curstate[i][j] === 1 && nextstate[i][j] === 0) {
+                cell.fillColor = clrAlive;
+                touched++;
+            } else if (curstate[i][j] === 0 && nextstate[i][j] === 1) {
+                cell.fillColor = clrDead;
+                touched++;
+            }
+            nextstate[i][j] = decide(i, j);
+        }
+        // console.log("touched " + touched + " cells.");
+    }
+
+    _tmp = curstate;
+    curstate = nextstate;
+    nextstate = _tmp;
+}
+
+
+// single glider - good with a closed universe.
+function single_glider(c) {
+var x_off = 1, y_off = 1;
+    c[1 + x_off ][0 + y_off] = 1;
+    c[2 + x_off ][1 + y_off] = 1;
+    c[0 + x_off ][2 + y_off] = 1;
+    c[1 + x_off ][2 + y_off] = 1;
+    c[2 + x_off ][2 + y_off] = 1;
+}
+
+// gosper's gun - should be used with an unbounded universe.
+// otherwise, returning gliders can destroy the gun.
+function gosper_gun(c) {
+    c[25][1] = 1;
+    c[23][2] = c[25][2] = 1;
+    c[13][3] = c[14][3] = c[21][3] = c[22][3] = c[35][3] = c[36][3] = 1;
+    c[12][4] = c[16][4] = c[21][4] = c[22][4] = c[35][4] = c[36][4] = 1;
+    c[1][5] = c[2][5] = c[11][5] = c[17][5] = c[21][5] = c[22][5] = 1;
+    c[1][6] = c[2][6] = c[11][6] = c[15][6] = c[17][6] = c[18][6] = c[23][6] = c[25][6] = 1;
+    c[11][7] = c[17][7] = c[25][7] = 1;
+    c[12][8] = c[16][8] = 1;
+    c[13][9] = c[14][9] = 1;
+}
+
+function paint_initial_state() {
+    // paint the initial state completely.
+    for (i = 0; i < cellcount_x; i++) {
+        for (j = 0; j < cellcount_y; j++) {
+            if (curstate[i][j] === 1) {
+                cells[i][j].fillColor = clrAlive;
+            } else {
+                cells[i][j].fillColor = clrDead;
+            }
+        }
+    }
+}
+
+// main
+create_structures();
+// gosper_gun(curstate);
+single_glider(curstate);
+paint_initial_state();
+universe_type = closed;
+
+var _paint = 0;
+function onFrame(event) {
+    if (_paint < 45) {
+        _paint++;
+        return;
+    } else {
+        _paint = 0;
+        clocktick();
+    }
+}
+</script>
+</body>
+</html>

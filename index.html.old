@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<title>SYSPRV</title>
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'></link>
+<style>
+body {
+  font-family: 'Droid Sans Mono', Helvetica, sans-serif;
+}
+</style>
+</head>
+<body>
+<blockquote style="font-size: 180%;">
+The SYSPRV privilege lets a process access protected objects 
+by the system protection field and also read and modify the 
+owner (UIC), the UIC-based protection code, and the ACL of an 
+object. Even if an object is protected against system access, 
+a process with SYSPRV privilege can change the object's 
+protection to gain access to it. Any process with SYSPRV privilege 
+can add, modify, or delete entries in the system 
+user authorization file (SYSUAF.DAT).</blockquote>
+<br/>
+<div id='geek-code'>
+<pre>
+GIT d- s:++ a- C++++ UL++++$ P+++$ L++$ E W++ N+ o+ K w !O V+++ PS+++ P
+E Y++ PGP+ !t 5+++ X++ !tv b+++ DI+++ D G e+ h-- r++ z+
+</pre>
+</div>
+<p><a href='https://freedom-to-tinker.com/?s=aacs'>09-f9-11-02-9d-74-e3-5b-d8-41-56-c5-63-56-88-c0</a></p>
+<p><a href='hdcp.html'>HDCP master key</a></p>
+<p><a rel='me' href='https://twitter.com/sysprv'>@sysprv</a></p>
+<p><a rel='me' href='http://liquidvicodin.com/'>liquid vicodin</a></p>
+<div id='fix-all-the-things'><a
+href='http://hyperboleandahalf.blogspot.com/2010/06/this-is-why-ill-never-be-adult.html'><img
+src='fix-all-the-things.png'
+width='796' height='598' alt='FIX ALL THE THINGS'/></a>
+</div>
+</body>
+</html>
