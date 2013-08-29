@@ -1,5 +1,5 @@
 #! /bin/bash
 
-fn=site.tar.gz
-/bin/rm $fn
-/usr/bin/tar --exclude $fn --exclude .backup -czf $fn .
+fn=/tmp/site.tar.gz
+rm $fn
+tar --exclude $fn --exclude .git --exclude .backup -czf $fn .
