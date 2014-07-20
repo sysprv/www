@@ -1,0 +1,3 @@
+#! /bin/sh
+exec /usr/bin/python2 -m SimpleHTTPServer 9032
+# The shebang may pass only one argument to the interpreter.
