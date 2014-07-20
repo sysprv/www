@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <!-- vim:set ts=8 sts=4 sw=4 et ai: -->
-<html>
+<html lang="en" itemscope itemtype="http://schema.org/Sculpture">
+<meta charset="utf-8">
+
 <head>
 <title>The Gosper Gun</title>
-<meta name='description' content='The Game of Life: A simple implementation of the Gosper Gun.' />
-<style>
+<meta name="description" content="The Game of Life: A simple implementation of the Gosper Gun.">
+<meta rel="canonical" href="http://www.sysprv.com/gosper.html">
+
+<meta property="og:url" content="http://www.sysprv.com/gosper.html">
+<meta property="og:title" content="The Gosper Gun">
+<meta property="og:description" content="The Game of Life: A simple implementation of the Gosper Gun.">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="http://www.sysprv.com/gosper.html">
+<meta name="twitter:title" content="The Gosper Gun">
+<meta name="twitter:description" content="The Game of Life: A simple implementation of the Gosper Gun.">
+<meta name="twitter:site" content="@liquidvicodin">
+<meta name="twitter:creator" content="@liquidvicodin">
+
+<style type="text/css">
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -15,9 +31,9 @@ td {
     width: 4.85pt;
 }
 </style>
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
-var clocktick = function gameOfLife() {
+(function gameOfLife() {
     var cellsz = 12, // width == height
         spacing = 0,
         cellcount_x,
@@ -72,6 +88,7 @@ var clocktick = function gameOfLife() {
             for (j = 0; j < cellcount_x; j++) {
                 var td = document.createElement("td");
                 td.id = "x" + j + "y" + i;
+                // td.style.backgroundColor = "gray";
                 // td.appendChild(document.createTextNode(" "));
                 tr.appendChild(td);
             }
@@ -248,9 +265,7 @@ var clocktick = function gameOfLife() {
             clocktick();
         }, 120);
     });
-
-    return clocktick;
-}();
+})();
 </script>
 </head>
 <body>
