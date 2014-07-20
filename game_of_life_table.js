@@ -55,9 +55,7 @@ function gameOfLifeInTable() {
         for (i = 0; i < cellcount_x; i++) {
             cells[i] = new Array(cellcount_y);
             for (j = 0; j < cellcount_y; j++) {
-                cells[i][j] = {
-                    state: 0
-                };
+                cells[i][j] = 0;
             }
         }
 
@@ -70,7 +68,7 @@ function gameOfLifeInTable() {
             tr.id = "y" + i;
             for (j = 0; j < cellcount_x; j++) {
                 var td = document.createElement("td");
-                td.id = "x" + j + "y" + i;
+                td.id = td_id([ j, i ]);
                 td.style.backgroundColor = colour_init;
                 // td.appendChild(document.createTextNode(" "));
                 tr.appendChild(td);
@@ -79,22 +77,26 @@ function gameOfLifeInTable() {
         }
     }
 
+    function td_id(cell) {
+        return "x" + cell[0] + "y" + cell[1];
+    }
+
     function isdead(cell) {
-        return cells[cell[0]][cell[1]].state === 0;
+        return cells[cell[0]][cell[1]] === 0;
     }
 
     function islive(cell) {
-        return cells[cell[0]][cell[1]].state === 1;
+        return cells[cell[0]][cell[1]] === 1;
     }
 
     function setdead(cell) {
-        cells[cell[0]][cell[1]].state = 0;
-        document.getElementById("x" + cell[0] + "y" + cell[1]).style.backgroundColor = colour_dead;
+        cells[cell[0]][cell[1]] = 0;
+        document.getElementById(td_id(cell)).style.backgroundColor = colour_dead;
     }
 
     function setlive(cell) {
-        cells[cell[0]][cell[1]].state = 1;
-        document.getElementById("x" + cell[0] + "y" + cell[1]).style.backgroundColor = colour_alive;
+        cells[cell[0]][cell[1]] = 1;
+        document.getElementById(td_id(cell)).style.backgroundColor = colour_alive;
     }
 
 
