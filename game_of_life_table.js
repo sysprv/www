@@ -35,46 +35,6 @@ function gameOfLifeInTable() {
         return val;
     }
 
-    function init(params) {
-        cellcount_x = params.cellcount_x;
-        cellcount_y = params.cellcount_y;
-
-        colour_alive = params.colour_alive;
-        colour_dead = params.colour_dead;
-        colour_init = params.colour_init;
-
-        tbd = params.tbody;
-
-        universe_type = params.topology;
-        automaton = params.automaton;
-
-        create_structures();
-        paint_initial_state(automaton);
-
-        return clocktick;
-    }
-
-    function create_structures() {
-        var i, j, tr, td;
-        cells = new Array(cellcount_x);
-        for (i = 0; i < cellcount_x; i++) {
-            cells[i] = [];
-        }
-
-        for (i = 0; i < cellcount_y; i++) {
-            tr = document.createElement("tr");
-            tr.id = "y" + i;
-            for (j = 0; j < cellcount_x; j++) {
-                td = document.createElement("td");
-                td.id = td_id([ j, i ]);
-                td.style.backgroundColor = colour_init;
-                // td.appendChild(document.createTextNode(" "));
-                tr.appendChild(td);
-            }
-            tbd.appendChild(tr);
-        }
-    }
-
     function td_id(cell) {
         return "x" + cell[0] + "y" + cell[1];
     }
@@ -157,10 +117,10 @@ function gameOfLifeInTable() {
                 }
             });
 
-            __mem_existant_neighbours[ cell_str ] = ret;
+            __mem_existant_neighbours[cell_str] = ret;
         }
 
-        return __mem_existant_neighbours[ cell_str ];
+        return __mem_existant_neighbours[cell_str];
     }
 
     function glider() {
@@ -183,35 +143,6 @@ function gameOfLifeInTable() {
             [12, 8], [16, 8],
             [13, 9], [14, 9]
         ];
-    }
-
-    function paint_initial_state(live_cells) {
-        live_cells.forEach(function (cell) {
-            setlive(cell);
-            new_live.push(cell);
-            inc_count_neigh(cell);
-        });
-
-        new_live.forEach(function (c) {
-            may_die.push(c);
-        });
-        new_live = [];
-    }
-
-
-    function vivify(c) {
-        if (isdead(c) && (neighbour_count_get(c) === 3)) {
-            setlive(c);
-            new_live.push(c);
-        }
-    }
-
-    function kill(c) {
-        var neigh_cn = neighbour_count_get(c);
-        if (islive(c) && (neigh_cn < 2 || neigh_cn > 3)) {
-            setdead(c);
-            new_die.push(c);
-        }
     }
 
     function inc_count_neigh(c) {
@@ -238,16 +169,85 @@ function gameOfLifeInTable() {
         });
     }
 
+    function vivify(c) {
+        if (isdead(c) && (neighbour_count_get(c) === 3)) {
+            setlive(c);
+            new_live.push(c);
+        }
+    }
+
+    function kill(c) {
+        var neigh_cn = neighbour_count_get(c);
+        if (islive(c) && (neigh_cn < 2 || neigh_cn > 3)) {
+            setdead(c);
+            new_die.push(c);
+        }
+    }
+
+    function paint_initial_state(live_cells) {
+        live_cells.forEach(function (cell) {
+            setlive(cell);
+            new_live.push(cell);
+            inc_count_neigh(cell);
+        });
+
+        new_live.forEach(function (c) {
+            may_die.push(c);
+        });
+        new_live = [];
+    }
+
     function clocktick() {
         may_live.forEach(function (cell) { vivify(cell); });
-        may_die.forEach( function (cell) { kill(cell);   });
+        may_die.forEach(function (cell) { kill(cell);   });
         may_live.length = 0;
         may_die.length = 0;
         new_live.forEach(function (cell) { inc_count_neigh(cell); });
-        new_die.forEach( function (cell) { dec_count_neigh(cell); });
+        new_die.forEach(function (cell) { dec_count_neigh(cell); });
         new_live.length = 0;
         new_die.length = 0;
     }
+
+    function create_structures() {
+        var i, j, tr, td;
+        cells = new Array(cellcount_x);
+        for (i = 0; i < cellcount_x; i++) {
+            cells[i] = [];
+        }
+
+        for (i = 0; i < cellcount_y; i++) {
+            tr = document.createElement("tr");
+            tr.id = "y" + i;
+            for (j = 0; j < cellcount_x; j++) {
+                td = document.createElement("td");
+                td.id = td_id([ j, i ]);
+                td.style.backgroundColor = colour_init;
+                // td.appendChild(document.createTextNode(" "));
+                tr.appendChild(td);
+            }
+            tbd.appendChild(tr);
+        }
+    }
+
+    function init(params) {
+        cellcount_x = params.cellcount_x;
+        cellcount_y = params.cellcount_y;
+
+        colour_alive = params.colour_alive;
+        colour_dead = params.colour_dead;
+        colour_init = params.colour_init;
+
+        tbd = params.tbody;
+
+        universe_type = params.topology;
+        automaton = params.automaton;
+
+        create_structures();
+        paint_initial_state(automaton);
+
+        return clocktick;
+    }
+
 
     return {
         "init": init,
