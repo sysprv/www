@@ -1,18 +1,23 @@
 function gameOfLifeInTable() {
+    "use strict";
+
+    /*jslint browser: true, nomen: true, plusplus: true */
+
     var colour_alive,
         colour_dead,
-	colour_init,
-        spacing = 0,
+        colour_init,
         cellcount_x,
         cellcount_y,
         universe_type,
         automaton,
         cells,
+        tbd,
         neighbour_count = {},
         new_live = [],
         new_die = [],
         may_live = [],
-        may_die = [];
+        may_die = [],
+        __mem_existant_neighbours = {};
 
 
     // el cheapo hash table; keys will be JS arrays.
@@ -36,7 +41,7 @@ function gameOfLifeInTable() {
 
         colour_alive = params.colour_alive;
         colour_dead = params.colour_dead;
-	colour_init = params.colour_init;
+        colour_init = params.colour_init;
 
         tbd = params.tbody;
 
@@ -46,28 +51,21 @@ function gameOfLifeInTable() {
         create_structures();
         paint_initial_state(automaton);
 
-	return clocktick;
+        return clocktick;
     }
 
     function create_structures() {
-        var i, j;
+        var i, j, tr, td;
         cells = new Array(cellcount_x);
         for (i = 0; i < cellcount_x; i++) {
-            cells[i] = new Array(cellcount_y);
-            for (j = 0; j < cellcount_y; j++) {
-                cells[i][j] = 0;
-            }
-        }
-
-        if (console && console.log) {
-            console.log("x*y->" + cellcount_x + "*" + cellcount_y + "=" + cellcount_x * cellcount_y);
+            cells[i] = [];
         }
 
         for (i = 0; i < cellcount_y; i++) {
-            var tr = document.createElement("tr");
+            tr = document.createElement("tr");
             tr.id = "y" + i;
             for (j = 0; j < cellcount_x; j++) {
-                var td = document.createElement("td");
+                td = document.createElement("td");
                 td.id = td_id([ j, i ]);
                 td.style.backgroundColor = colour_init;
                 // td.appendChild(document.createTextNode(" "));
@@ -82,10 +80,16 @@ function gameOfLifeInTable() {
     }
 
     function isdead(cell) {
+        if (cells[cell[0]][cell[1]] === undefined) {
+            return true;
+        }
         return cells[cell[0]][cell[1]] === 0;
     }
 
     function islive(cell) {
+        if (cells[cell[0]][cell[1]] === undefined) {
+            return false;
+        }
         return cells[cell[0]][cell[1]] === 1;
     }
 
@@ -109,7 +113,7 @@ function gameOfLifeInTable() {
     function closed(x, y) {
         var _x, _y;
         if (x >= 0 && x < cellcount_x) {
-            _x =x;
+            _x = x;
         } else if (x < 0) {
             _x = x + cellcount_x;
         } else if (x >= cellcount_x) {
@@ -138,14 +142,15 @@ function gameOfLifeInTable() {
     }
 
 
-    var __mem_existant_neighbours = {};
     function existant_neighbours(cell) {
-        var cell_str = cell.toString();
+        var cell_str = cell.toString(),
+            all,
+            ret;
 
         if (!__mem_existant_neighbours.hasOwnProperty(cell_str)) {
-            var all = neighbours(cell[0], cell[1]);
+            all = neighbours(cell[0], cell[1]);
 
-            var ret = [];
+            ret = [];
             all.forEach(function (c) {
                 if (c[0] >= 0 && c[0] < cellcount_x && c[1] >= 0 && c[1] < cellcount_y) {
                     ret.push(c);
@@ -203,8 +208,7 @@ function gameOfLifeInTable() {
 
     function kill(c) {
         var neigh_cn = neighbour_count_get(c);
-        if (islive(c) &&
-            (neigh_cn < 2 || neigh_cn > 3)) {
+        if (islive(c) && (neigh_cn < 2 || neigh_cn > 3)) {
             setdead(c);
             new_die.push(c);
         }
@@ -214,8 +218,11 @@ function gameOfLifeInTable() {
         existant_neighbours(c).forEach(function (n) {
             var val = neighbour_count_get(n) + 1;
             neighbour_count_put(n, val);
-            if (val === 3 && isdead(n)) may_live.push(n);
-            else if (val === 4 && islive(n)) may_die.push(n);
+            if (val === 3 && isdead(n)) {
+                may_live.push(n);
+            } else if (val === 4 && islive(n)) {
+                may_die.push(n);
+            }
         });
     }
 
@@ -223,20 +230,23 @@ function gameOfLifeInTable() {
         existant_neighbours(c).forEach(function (n) {
             var val = neighbour_count_get(n) - 1;
             neighbour_count_put(n, val);
-            if (val === 3 && isdead(n)) may_live.push(n);
-            else if (val === 1 && islive(n)) may_die.push(n);
+            if (val === 3 && isdead(n)) {
+                may_live.push(n);
+            } else if (val === 1 && islive(n)) {
+                may_die.push(n);
+            }
         });
     }
 
     function clocktick() {
         may_live.forEach(function (cell) { vivify(cell); });
         may_die.forEach( function (cell) { kill(cell);   });
-        may_live = [];
-        may_die = [];
+        may_live.length = 0;
+        may_die.length = 0;
         new_live.forEach(function (cell) { inc_count_neigh(cell); });
         new_die.forEach( function (cell) { dec_count_neigh(cell); });
-        new_live = [];
-        new_die = [];
+        new_live.length = 0;
+        new_die.length = 0;
     }
 
     return {
