@@ -10,7 +10,7 @@ function gameOfLifeInTable() {
         cellcount_y,
         universe_type,
         automaton,
-        cells,
+        cells = {},
         tbd,
         neighbour_count = {},
         new_live = [],
@@ -40,26 +40,30 @@ function gameOfLifeInTable() {
     }
 
     function isdead(cell) {
-        if (cells[cell[0]][cell[1]] === undefined) {
+	var key = cell.toString();
+        if (cells[key] === undefined) {
             return true;
         }
-        return cells[cell[0]][cell[1]] === 0;
+        return cells[key] === 0;
     }
 
     function islive(cell) {
-        if (cells[cell[0]][cell[1]] === undefined) {
+	var key = cell.toString();
+        if (cells[key] === undefined) {
             return false;
         }
-        return cells[cell[0]][cell[1]] === 1;
+        return cells[key] === 1;
     }
 
     function setdead(cell) {
-        cells[cell[0]][cell[1]] = 0;
+	var key = cell.toString();
+        cells[key] = 0;
         document.getElementById(td_id(cell)).style.backgroundColor = colour_dead;
     }
 
     function setlive(cell) {
-        cells[cell[0]][cell[1]] = 1;
+	var key = cell.toString();
+        cells[key] = 1;
         document.getElementById(td_id(cell)).style.backgroundColor = colour_alive;
     }
 
@@ -194,7 +198,7 @@ function gameOfLifeInTable() {
         new_live.forEach(function (c) {
             may_die.push(c);
         });
-        new_live = [];
+        new_live.length = 0;
     }
 
     function clocktick() {
@@ -210,10 +214,6 @@ function gameOfLifeInTable() {
 
     function create_structures() {
         var i, j, tr, td;
-        cells = new Array(cellcount_x);
-        for (i = 0; i < cellcount_x; i++) {
-            cells[i] = [];
-        }
 
         for (i = 0; i < cellcount_y; i++) {
             tr = document.createElement("tr");
