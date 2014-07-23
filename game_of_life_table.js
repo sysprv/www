@@ -1,7 +1,7 @@
 function gameOfLifeInTable() {
     "use strict";
 
-    /*jslint browser: true, nomen: true, plusplus: true */
+    /*jslint browser: true, nomen: true, plusplus: true, sub: true */
 
     var colour_alive,
         colour_dead,
@@ -40,7 +40,7 @@ function gameOfLifeInTable() {
     }
 
     function isdead(cell) {
-	var key = cell.toString();
+        var key = cell.toString();
         if (cells[key] === undefined) {
             return true;
         }
@@ -48,7 +48,7 @@ function gameOfLifeInTable() {
     }
 
     function islive(cell) {
-	var key = cell.toString();
+        var key = cell.toString();
         if (cells[key] === undefined) {
             return false;
         }
@@ -56,13 +56,13 @@ function gameOfLifeInTable() {
     }
 
     function setdead(cell) {
-	var key = cell.toString();
+        var key = cell.toString();
         cells[key] = 0;
         document.getElementById(td_id(cell)).style.backgroundColor = colour_dead;
     }
 
     function setlive(cell) {
-	var key = cell.toString();
+        var key = cell.toString();
         cells[key] = 1;
         document.getElementById(td_id(cell)).style.backgroundColor = colour_alive;
     }
@@ -109,17 +109,22 @@ function gameOfLifeInTable() {
     function existant_neighbours(cell) {
         var cell_str = cell.toString(),
             all,
+            all_len,
+            i,
+            c,
             ret;
 
         if (!__mem_existant_neighbours.hasOwnProperty(cell_str)) {
             all = neighbours(cell[0], cell[1]);
 
             ret = [];
-            all.forEach(function (c) {
+            all_len = all.length;
+            for (i = 0; i < all_len; i++) {
+                c = all[i];
                 if (c[0] >= 0 && c[0] < cellcount_x && c[1] >= 0 && c[1] < cellcount_y) {
                     ret.push(c);
                 }
-            });
+            }
 
             __mem_existant_neighbours[cell_str] = ret;
         }
@@ -150,27 +155,41 @@ function gameOfLifeInTable() {
     }
 
     function inc_count_neigh(c) {
-        existant_neighbours(c).forEach(function (n) {
-            var val = neighbour_count_get(n) + 1;
+        var n,
+            ex = existant_neighbours(c),
+            ex_len = ex.length,
+            i,
+            val;
+
+        for (i = 0; i < ex_len; i++) {
+            n = ex[i];
+            val = neighbour_count_get(n) + 1;
             neighbour_count_put(n, val);
             if (val === 3 && isdead(n)) {
                 may_live.push(n);
             } else if (val === 4 && islive(n)) {
                 may_die.push(n);
             }
-        });
+        }
     }
 
     function dec_count_neigh(c) {
-        existant_neighbours(c).forEach(function (n) {
-            var val = neighbour_count_get(n) - 1;
+        var n,
+            ex = existant_neighbours(c),
+            ex_len = ex.length,
+            i,
+            val;
+
+        for (i = 0; i < ex_len; i++) {
+            n = ex[i];
+            val = neighbour_count_get(n) - 1;
             neighbour_count_put(n, val);
             if (val === 3 && isdead(n)) {
                 may_live.push(n);
             } else if (val === 1 && islive(n)) {
                 may_die.push(n);
             }
-        });
+        }
     }
 
     function vivify(c) {
@@ -189,25 +208,38 @@ function gameOfLifeInTable() {
     }
 
     function paint_initial_state(live_cells) {
-        live_cells.forEach(function (cell) {
+        var i,
+            live_len = live_cells.length,
+            cell;
+
+        for (i = 0; i < live_len; i++) {
+            cell = live_cells[i];
             setlive(cell);
             new_live.push(cell);
             inc_count_neigh(cell);
-        });
+        }
 
-        new_live.forEach(function (c) {
-            may_die.push(c);
-        });
+        may_die = new_live.slice();
+
         new_live.length = 0;
     }
 
     function clocktick() {
-        may_live.forEach(function (cell) { vivify(cell); });
-        may_die.forEach(function (cell) { kill(cell);   });
+        var i, len;
+        for (i = 0, len = may_live.length; i < len; i++) {
+            vivify(may_live[i]);
+        }
+        for (i = 0, len = may_die.length; i < len; i++) {
+            kill(may_die[i]);
+        }
         may_live.length = 0;
         may_die.length = 0;
-        new_live.forEach(function (cell) { inc_count_neigh(cell); });
-        new_die.forEach(function (cell) { dec_count_neigh(cell); });
+        for (i = 0, len = new_live.length; i < len; i++) {
+            inc_count_neigh(new_live[i]);
+        }
+        for (i = 0, len = new_die.length; i < len; i++) {
+            dec_count_neigh(new_die[i]);
+        }
         new_live.length = 0;
         new_die.length = 0;
     }
@@ -230,17 +262,17 @@ function gameOfLifeInTable() {
     }
 
     function init(params) {
-        cellcount_x = params.cellcount_x;
-        cellcount_y = params.cellcount_y;
+        cellcount_x = params['cellcount_x'];
+        cellcount_y = params['cellcount_y'];
 
-        colour_alive = params.colour_alive;
-        colour_dead = params.colour_dead;
-        colour_init = params.colour_init;
+        colour_alive = params['colour_alive'];
+        colour_dead = params['colour_dead'];
+        colour_init = params['colour_init'];
 
-        tbd = params.tbody;
+        tbd = params['tbody'];
 
-        universe_type = params.topology;
-        automaton = params.automaton;
+        universe_type = params['topology'];
+        automaton = params['automaton'];
 
         create_structures();
         paint_initial_state(automaton);
@@ -261,3 +293,7 @@ function gameOfLifeInTable() {
         }
     };
 }
+
+window['gameOfLifeInTable'] = gameOfLifeInTable;
+
+

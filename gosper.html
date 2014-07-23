@@ -33,9 +33,10 @@ td {
 }
 </style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="game_of_life_table.js"></script>
+<script src="game_of_life_table.closure.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        "use strict";
         var env = gameOfLifeInTable();
         var tick = env.init({
             "cellcount_x": 100,
