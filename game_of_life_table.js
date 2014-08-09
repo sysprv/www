@@ -17,7 +17,8 @@ function gameOfLifeInTable() {
         new_die = [],
         may_live = [],
         may_die = [],
-        __mem_existant_neighbours = {};
+        __mem_existant_neighbours = {},
+        __mem_elems = {};
 
 
     // el cheapo hash table; keys will be JS arrays.
@@ -55,16 +56,26 @@ function gameOfLifeInTable() {
         return cells[key] === 1;
     }
 
+    function td(cell) {
+        var id_str = td_id(cell);
+
+        if (__mem_elems[id_str] === undefined) {
+            __mem_elems[id_str] = document.getElementById(id_str);
+        }
+
+        return __mem_elems[id_str];
+    }
+
     function setdead(cell) {
         var key = cell.toString();
         cells[key] = 0;
-        document.getElementById(td_id(cell)).style.backgroundColor = colour_dead;
+        td(cell).style.backgroundColor = colour_dead;
     }
 
     function setlive(cell) {
         var key = cell.toString();
         cells[key] = 1;
-        document.getElementById(td_id(cell)).style.backgroundColor = colour_alive;
+        td(cell).style.backgroundColor = colour_alive;
     }
 
 
