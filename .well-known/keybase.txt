@@ -1,0 +1,65 @@
+==================================================================
+https://keybase.io/sysprv
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://www.sysprv.com
+  * I am sysprv (https://keybase.io/sysprv) on keybase.
+  * I have a public key with fingerprint BDF2 38E5 0079 F199 3419  1621 36E6 5835 5B1F 3959
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "bdf238e50079f1993419162136e658355b1f3959",
+            "host": "keybase.io",
+            "key_id": "36e658355b1f3959",
+            "uid": "73196193b384c00690bd0477c409a900",
+            "username": "sysprv"
+        },
+        "service": {
+            "hostname": "www.sysprv.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1411501710,
+    "expire_in": 157680000,
+    "prev": "9334e41eac8aaec53b4214a5e552adc136237d440e2c116927fce03a7633e2db",
+    "seqno": 5,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v1.0.5
+Comment: https://keybase.io/crypto
+
+yMHoAnicbZFdSBRRFMdXTbONTV16SJDK6YMEW+7dOx87a0qI9BAlaGJl4jYfd3VM
+Z7bZcddFNoI+XjQR01hyE4Q0NERoRRFERdOHkiJQMSLMSslCzLIoH7QZs7fuy+We
+8/v/zzn3PLXEmMxRvyMXfjnaWxujno+sVpkKUl/U1xC8IgYIZw1xBW9dbkkuxapH
+lWSNcBK86LYjB6YAYFg3ZFlEQhbSdohoTFMORFE8dCOWYol0okzxGgrdhue82CYp
+ekx/uCRRj/6Hr9pKMAiyNGQRjxykAADNAl4EJMMIJGA5FgAD9GJV5iqxTnsDXo/q
+I4LphB7zSQI2OjYKb+f9fr/tL2MTlEpd61EVTRGUCj1XpmkepyHVAp4tFvOubRcX
+L8miPrcu8GHVKyky4YQ6KWiSYQtJCCkAGQjSCVztkVTskgyCYmgH0I9RBvt0SxYh
+EpMQc4KD47BAIZ60Q5KjMEXZOVHQf82OGJEkAbYLENKsnXELGCCOoRHCdpEnjLmu
+ygrhpPQ2uVJjYqlU5rQqFRPB0ZHiHaYosykuNtrYnMm8K/HfPsvHd25kKf29cw0r
+myPW2+VpstVysD0puvbIYKu/84x2Yrd7/OiEg19dn43cfJMCycpnS3lgiqseC/U2
+BMPZ3ehWbl9Gdv73fufm/sGHVOz9ws8HqKTF6bVl26Wy5OSx6/Efkse7fn5jlq7l
+zLf0TZ1GoboHQf9A24258+9Pmtume7SwqamrQnUNZ3601O2zjq6fqt3bOFk8byla
+TBDXCqw9m81W+etM88Tk2/qxBX+EzEkZWnkS6twzdC/3XLN7cPLVxUOzAy2H+cQv
+rx8HjouhknDTQng4K6aoJKcju3DtbF7HnXd38fyj/LSNzAwQH/3J5E29/GM5Qhyb
+ietmXyb8ATVOFhY=
+=paKn
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/sysprv
+
+==================================================================
