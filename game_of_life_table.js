@@ -1,6 +1,11 @@
 function gameOfLifeInTable() {
     "use strict";
 
+    // Optimized according to
+    // http://www.drdobbs.com/parallel/game-of-life-avoiding-deserted-areas/240150199
+    // and
+    // http://www.drdobbs.com/parallel/game-of-life-using-lists-to-focus-proce/240151202
+
     /*jslint browser: true, nomen: true, plusplus: true, sub: true */
 
     var colour_alive,
