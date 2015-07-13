@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <title>ᛏ my twitter home timeline</title>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,400italic' rel='stylesheet' type='text/css'>
+    <style>
+    body {
+        font-family: 'PT Sans', sans-serif;
+    }
+    li {
+        padding-bottom: 1em;
+    }
+    </style>
+    <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+    $(function () {
+        // ready
+        var firebase = new Firebase('https://lqvdn-twitter.firebaseio.com/');
+        var lis = [];
+        var tcoRe = /https?:\/\/t\.co\/[A-Za-z0-9_-]+/g;
+
+        firebase.child('/_status').on('value', function (snapshot) {
+            var json = snapshot.val();
+
+            /* console.log(json); */
+            var txt = json.text.replace(tcoRe, "<a target='_blank' href='$&'>$&</a>");
+
+            var li = $('<li>' + json.screen_name + '<p>' + txt + '</p></li>').
+                hide().
+                css('opacity', 0.0).
+                prependTo('#tweet-list').
+                slideDown('slow').
+                animate({ opacity: 1.0 });
+
+            lis.push(li);
+
+            while (lis.length > 10) {
+                /* last li is at index 0 */
+                var liRm = lis.shift();
+
+                liRm.fadeOut('slow', function () {
+                    $(this).remove();
+                });
+            }
+
+            /* hash present? boss mode - no graphics */
+            if (!(window.location.hash) && (typeof json['img'] !== 'undefined')) {
+                $('#latest-tweet-image').attr('src', json['img']);
+            }
+
+            /* change window title to indicate activity */
+            if (document.title.charAt(0) === 'ᛏ') {
+                document.title = 'ᚨ my twitter home timeline';
+            } else {
+                document.title = 'ᛏ my twitter home timeline';
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+    <noscript>Sadly, this page needs JavaScript to work. F*ck this gay earth.</noscript>
+    <img style='float: right; width: 250px;' id='latest-tweet-image' />
+    <ul id='tweet-list'/>
+</body>
+</html>
